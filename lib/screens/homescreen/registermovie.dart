@@ -12,7 +12,7 @@ class AddMovieList extends StatefulWidget {
       this.isEditing = false,
       this.director = "",
       this.name = "",
-      this.ogName=""})
+      this.ogName = ""})
       : super(key: key);
   String? img64;
   String? name;
@@ -53,7 +53,7 @@ class _AddMovieListState extends State<AddMovieList> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 35),
         child: Container(
-          margin: EdgeInsets.only(top:50),
+          margin: EdgeInsets.only(top: 50),
           child: Form(
             key: _key,
             child: SingleChildScrollView(
@@ -103,13 +103,12 @@ class _AddMovieListState extends State<AddMovieList> {
                   ],
                 ),
                 TextFormField(
-                  style: Theme.of(context).inputDecorationTheme.hintStyle,
+                    style: Theme.of(context).inputDecorationTheme.hintStyle,
                     controller: nameController,
                     validator: formValidator,
                     decoration: InputDecoration(
                       hintText: 'Title',
-                    )
-                ),
+                    )),
                 TextFormField(
                   style: Theme.of(context).inputDecorationTheme.hintStyle,
                   controller: directorController,
@@ -125,13 +124,13 @@ class _AddMovieListState extends State<AddMovieList> {
                       movie.name = nameController.text;
                       movie.director = directorController.text;
                       movie.cover = widget.img64;
-                      if(widget.isEditing){
-                        MovieProvider.instance.updateMovies(movie, widget.ogName!);
-                        Utility.showAlertDialog(context, 'Movie was updated');
-                      }
-                      else{
+                      if (widget.isEditing) {
+                        MovieProvider.instance
+                            .updateMovies(movie, widget.ogName!);
+                         Navigator.pop(context);
+                      } else {
                         MovieProvider.instance.addMovie(movie);
-                        Utility.showAlertDialog(context, 'Movie Added');
+                        Navigator.pop(context);
                       }
                     },
                     child: Text(
