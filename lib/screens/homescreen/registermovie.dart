@@ -52,7 +52,8 @@ class _AddMovieListState extends State<AddMovieList> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 35),
-        child: Center(
+        child: Container(
+          margin: EdgeInsets.only(top:50),
           child: Form(
             key: _key,
             child: SingleChildScrollView(
@@ -102,10 +103,15 @@ class _AddMovieListState extends State<AddMovieList> {
                   ],
                 ),
                 TextFormField(
+                  style: Theme.of(context).inputDecorationTheme.hintStyle,
                     controller: nameController,
                     validator: formValidator,
-                    decoration: InputDecoration(hintText: 'Title')),
+                    decoration: InputDecoration(
+                      hintText: 'Title',
+                    )
+                ),
                 TextFormField(
+                  style: Theme.of(context).inputDecorationTheme.hintStyle,
                   controller: directorController,
                   validator: formValidator,
                   decoration: InputDecoration(hintText: 'Director'),
@@ -119,9 +125,14 @@ class _AddMovieListState extends State<AddMovieList> {
                       movie.name = nameController.text;
                       movie.director = directorController.text;
                       movie.cover = widget.img64;
-                      (widget.isEditing)
-                          ? MovieProvider.instance.updateMovies(movie, widget.ogName!)
-                          : MovieProvider.instance.addMovie(movie);
+                      if(widget.isEditing){
+                        MovieProvider.instance.updateMovies(movie, widget.ogName!);
+                        Utility.showAlertDialog(context, 'Movie was updated');
+                      }
+                      else{
+                        MovieProvider.instance.addMovie(movie);
+                        Utility.showAlertDialog(context, 'Movie Added');
+                      }
                     },
                     child: Text(
                       (widget.isEditing) ? 'Update' : 'Add',

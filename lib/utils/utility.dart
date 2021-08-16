@@ -16,7 +16,7 @@ class Utility {
 
   static showAlertDialog(BuildContext context, String message) {
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: Text("OK", style: TextStyle(color: Colors.deepOrange),),
       onPressed: () {
         Navigator.pop(context);
       },
