@@ -13,7 +13,7 @@ I have used stream provider to seperate the logic layer from the UI layer to red
 
 ## Screenshots
 
-<img src = "/screenshots/Screenshot_1629105842.png width="200" height="400""/>
+<img src = "/screenshots/Screenshot_1629105842.png" width="200" height="400"/>
 <br><br>
 <img src = "/screenshots/Screenshot_1629105827.png" width="200" height="400"/>
 <br><br>
