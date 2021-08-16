@@ -23,8 +23,8 @@ class MovieProvider {
     await getMovies();
   }
 
-  updateMovies(Movie movie) async {
-    await DBhelper.instance.update(movie);
+  updateMovies(Movie movie, String ogName) async {
+    await DBhelper.instance.update(movie, ogName);
     await getMovies();
   }
 

@@ -1,7 +1,6 @@
 import 'package:movie_list/db/dbhelper.dart';
 
 class Movie {
-  int? id;
   String? name;
   String? director;
   String? cover;
@@ -9,7 +8,6 @@ class Movie {
   Movie();
 
   Movie.fromMap(Map<String, dynamic> map) {
-    this.id = map[DBhelper.ID];
     this.name = map[DBhelper.NAME];
     this.director = map[DBhelper.DIRECTOR];
     this.cover = map[DBhelper.COVER];
@@ -21,9 +19,6 @@ class Movie {
       DBhelper.DIRECTOR: this.director,
       DBhelper.COVER: this.cover
     };
-    if (id != null) {
-      map[DBhelper.ID] = this.id;
-    }
     return map;
   }
 }

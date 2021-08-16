@@ -6,9 +6,19 @@ import 'package:movie_list/utils/utility.dart';
 
 // ignore: must_be_immutable
 class AddMovieList extends StatefulWidget {
-  AddMovieList({Key? key, this.img64 = ""}) : super(key: key);
-  String img64;
-
+  AddMovieList(
+      {Key? key,
+      this.img64 = "",
+      this.isEditing = false,
+      this.director = "",
+      this.name = "",
+      this.ogName=""})
+      : super(key: key);
+  String? img64;
+  String? name;
+  String? ogName;
+  String? director;
+  bool isEditing;
   @override
   _AddMovieListState createState() => _AddMovieListState();
 }
@@ -30,9 +40,12 @@ class _AddMovieListState extends State<AddMovieList> {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController directorController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    if (widget.isEditing) {
+      nameController.text = widget.name!;
+      directorController.text = widget.director!;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Add a movie'),
@@ -74,7 +87,7 @@ class _AddMovieListState extends State<AddMovieList> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Utility.imageFromBase64String(
-                                    widget.img64)),
+                                    widget.img64!)),
                           ),
                     InkWell(
                       onTap: () => pickImage(),
@@ -89,10 +102,9 @@ class _AddMovieListState extends State<AddMovieList> {
                   ],
                 ),
                 TextFormField(
-                  controller: nameController,
-                  validator: formValidator,
-                  decoration: InputDecoration(hintText: 'Title'),
-                ),
+                    controller: nameController,
+                    validator: formValidator,
+                    decoration: InputDecoration(hintText: 'Title')),
                 TextFormField(
                   controller: directorController,
                   validator: formValidator,
@@ -102,13 +114,17 @@ class _AddMovieListState extends State<AddMovieList> {
                 ElevatedButton(
                     onPressed: () {
                       if (!_key.currentState!.validate()) return;
+                      print(nameController.text);
                       Movie movie = Movie();
                       movie.name = nameController.text;
                       movie.director = directorController.text;
-                      MovieProvider.instance.addMovie(movie);
+                      movie.cover = widget.img64;
+                      (widget.isEditing)
+                          ? MovieProvider.instance.updateMovies(movie, widget.ogName!)
+                          : MovieProvider.instance.addMovie(movie);
                     },
                     child: Text(
-                      'Add',
+                      (widget.isEditing) ? 'Update' : 'Add',
                       style: TextStyle(color: Colors.black),
                     ))
               ],

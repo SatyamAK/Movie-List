@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_list/models/movie.dart';
+import 'package:movie_list/screens/homescreen/registermovie.dart';
 import 'package:movie_list/services/movieProvider.dart';
+import 'package:movie_list/utils/utility.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie? movie;
@@ -11,16 +13,22 @@ class MovieCard extends StatelessWidget {
     return Container(
         child: Row(
       children: [
-        Container(
+        (movie!.cover==null ||  movie!.cover!.length==0)?Container(
           margin: EdgeInsets.all(16),
           width: 70,
           height: 70,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                  image: NetworkImage(
-                      'https://media.wired.com/photos/5d09594a62bcb0c9752779d9/1:1/w_1500,h_1500,c_limit/Transpo_G70_TA-518126.jpg'),
-                  fit: BoxFit.cover)),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.yellow
+          ),
+          child: Center(
+            child: Text('No Image Available', style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,)
+          ),
+        ):Container(
+          margin: EdgeInsets.all(16),
+          width: 70,
+          height: 70,
+          child: Utility.imageFromBase64String(movie!.cover!)
         ),
         Expanded(
           child: Container(
@@ -32,7 +40,7 @@ class MovieCard extends StatelessWidget {
                   movie!.name.toString(),
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
-                //SizedBox(height: 6),
+                SizedBox(height: 4),
                 Text(
                   movie!.director.toString(),
                   style: Theme.of(context).textTheme.subtitle2,
@@ -47,6 +55,19 @@ class MovieCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(right: 12, left: 12),
               child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context)=>AddMovieList(
+                        isEditing: true,
+                        name: movie!.name,
+                        director: movie!.director,
+                        img64: movie!.cover,
+                        ogName: movie!.name,
+                      )
+                    )
+                  );
+                },
                 child: Row(
                   children: [
                     Icon(Icons.edit),
@@ -61,8 +82,7 @@ class MovieCard extends StatelessWidget {
               margin: EdgeInsets.only(right: 12, left: 12),
               child: InkWell(
                 onTap: () {
-                  //MovieProvider.instance.deleteMovie(movie!);
-                  print(movie!.id.toString());
+                  MovieProvider.instance.deleteMovie(movie!);
                 },
                 child: Row(
                   children: [

@@ -7,7 +7,6 @@ class DBhelper {
   static final DBhelper instance = DBhelper._init();
   DBhelper._init();
   static Database? _db;
-  static const String ID = 'id';
   static const String NAME = 'name';
   static const String DIRECTOR = 'director';
   static const String COVER = 'cover';
@@ -31,8 +30,7 @@ class DBhelper {
   Future _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $TABLENAME(
-        $ID 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        $NAME 'TEXT NOT NULL',
+        $NAME 'TEXT NOT NULL PRIMARY KEY',
         $DIRECTOR 'TEXTNOT NULL',
         $COVER 'TEXT NOT NULL'
         )
@@ -42,7 +40,7 @@ class DBhelper {
   Future<List<Movie>> getMovies() async {
     final database = await DBhelper.instance.db;
     var movies =
-        await database.query(TABLENAME, columns: [ID, NAME, DIRECTOR, COVER]);
+        await database.query(TABLENAME, columns: [NAME, DIRECTOR, COVER]);
     List<Movie> moviesLst = [];
     movies.forEach((element) {
       Movie m = Movie.fromMap(element);
@@ -64,14 +62,20 @@ class DBhelper {
     );
   }
 
-  Future update(Movie movie) async {
+  //Auto increment is bugging giving null to id, to counter that I will
+  //liberty to consider name as primary key aka names will be unique
+  //and all operations will be done with reference to name.
+  Future update(Movie movie, String ogName) async {
     final database = await DBhelper.instance.db;
-    database.update(TABLENAME, movie.toMap(),
-        where: '$ID = ?', whereArgs: [movie.id]);
+    await database.update(
+      TABLENAME, 
+      movie.toMap(),
+      where: '$NAME = ?', whereArgs: [ogName]
+    );
   }
 
   Future delete(Movie movie) async {
     final database = await DBhelper.instance.db;
-    database.delete(TABLENAME, where: '$ID = ?', whereArgs: [movie.id]);
+    database.delete(TABLENAME, where: '$NAME = ?', whereArgs: [movie.name]);
   }
 }
