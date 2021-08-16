@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_list/models/movie.dart';
 import 'package:movie_list/screens/homescreen/moviesList.dart';
 import 'package:movie_list/screens/homescreen/registermovie.dart';
+import 'package:movie_list/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:movie_list/services/movieProvider.dart';
 
@@ -14,13 +15,19 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Movies List'),
-          actions: [TextButton(onPressed: () {}, child: Text('Logout'))],
+          actions: [
+            TextButton(
+                onPressed: () {
+                  AuthService().logout();
+                },
+                child: Text('Logout'))
+          ],
         ),
         body: MovieListView(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddMovieList()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddMovieList()));
           },
           backgroundColor: Theme.of(context).primaryColor,
           child: Icon(
