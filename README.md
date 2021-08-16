@@ -1,16 +1,20 @@
 # movie_list
 
-A new Flutter project.
+A new Flutter project assigned for Selection Process by Yellow Clases.
 
-## Getting Started
+## Intro
 
-This project is a starting point for a Flutter application.
+For this project I have used sqflite as local storage/database to store movie list and prerform CRUD operations
+i.e Create, Read, Update, Delete.
 
-A few resources to get you started if this is your first Flutter project:
+I have used firebase auth for presistence authentication using google accounts.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+I have used stream provider to seperate the logic layer from the UI layer to reduce the recreation of Widgets uneccesarry amount of times.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+<img src = "/screenshots/Screenshot_1629105842.png" width="200" height="400"/>
+<br><br>
+<img src = "/screenshots/Screenshot_1629105827.png" width="200" height="400"/>
+<br><br>
+<img src = "/screenshots/Screenshot_1629105837.png" width="200" height="400"/>
